@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💝 Для тебя</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff4d6d, #ff8787, #ffb3b3);
+            background-size: 200% 200%;
+            animation: gradientBG 8s ease infinite;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 15px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px 25px;
+            border-radius: 60px;
+            box-shadow: 0 30px 60px rgba(255, 77, 109, 0.3);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 4px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .heart-bg {
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        h1 {
+            color: #ff4d6d;
+            font-size: 34px;
+            margin-bottom: 50px;
+            line-height: 1.3;
+            text-shadow: 2px 2px 0 rgba(255, 77, 109, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .play-area {
+            position: relative;
+            height: 180px;
+            margin: 30px 0 20px;
+            z-index: 5;
+        }
+        
+        .btn-yes {
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.5);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 10;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn-yes:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .btn-no {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: none;
+            z-index: 20;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .hint-text {
+            color: #ff4d6d;
+            font-size: 20px;
+            margin-top: 30px;
+            opacity: 0.9;
+            animation: float 2s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .win-screen {
+            animation: appear 0.8s ease;
+        }
+        
+        .big-heart {
+            font-size: 120px;
+            animation: heartbeat 1.5s infinite;
+            margin: 20px 0;
+        }
+        
+        .win-title {
+            color: #ff4d6d;
+            font-size: 48px;
+            margin: 20px 0;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        
+        .win-subtitle {
+            color: #ff8c8c;
+            font-size: 30px;
+            margin: 15px 0;
+        }
+        
+        .hearts-row {
+            font-size: 45px;
+            margin: 30px 0;
+            letter-spacing: 12px;
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            35% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            55% { transform: scale(1); }
+        }
+        
+        @keyframes appear {
+            from { 
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .footer-note {
+            margin-top: 20px;
+            color: #ff4d6d;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .floating-heart {
+            position: fixed;
+            font-size: 25px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fallDown linear forwards;
+        }
+        
+        @keyframes fallDown {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="heart-bg">❤️</div>
+        
+        <!-- Основной экран с вопросом -->
+        <div id="questionBlock">
+            <h1>💝 Ты будешь моей валентинкой? 💝</h1>
+            
+            <div class="play-area" id="gameBox">
+                <button class="btn-yes" onclick="sayYes()">💖 ДА</button>
+                <button class="btn-no" id="noButton">💔 НЕТ</button>
+            </div>
+            
+            <div class="hint-text">
+                👆 Попробуй нажать НЕТ
+            </div>
+            <div class="footer-note">
+                С Днем Святого Валентина ❤️
+            </div>
+        </div>
+        
+        <!-- Экран с поздравлением -->
+        <div id="winBlock" class="win-screen" style="display: none;">
+            <div class="big-heart">💝</div>
+            <div class="win-title">УРА!!! 🎉</div>
+            <div class="win-subtitle">Ты согласилась!</div>
+            <div class="hearts-row">❤️ 🧡 💛 💚 💙 💜</div>
+            <div class="win-title">С Днем</div>
+            <div class="win-title">Святого Валентина!</div>
+            <div class="win-subtitle" style="margin-top: 30px;">Ты самая лучшая! 💋</div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noButton');
+        const gameBox = document.getElementById('gameBox');
+        let canMove = true;
+        
+        function sayYes() {
+            document.getElementById('questionBlock').style.display = 'none';
+            document.getElementById('winBlock').style.display = 'block';
+            startCelebration();
+        }
+        
+        function moveNoButton() {
+            if (!canMove) return;
+            canMove = false;
+            
+            const boxRect = gameBox.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            const maxX = boxRect.width - btnRect.width - 30;
+            const maxY = boxRect.height - btnRect.height - 30;
+            
+            if (maxX > 30 && maxY > 30) {
+                const newX = Math.floor(Math.random() * maxX);
+                const newY = Math.floor(Math.random() * maxY);
+                
+                noBtn.style.left = newX + 'px';
+                noBtn.style.right = 'auto';
+                noBtn.style.top = newY + 'px';
+                noBtn.style.transform = 'none';
+                
+                // Меняем цвет при каждом движении
+                const colors = ['#6c757d', '#5a6268', '#495057', '#545b62', '#4a4e54', '#6b7280'];
+                noBtn.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            setTimeout(() => {
+                canMove = true;
+            }, 200);
+        }
+        
+        function startCelebration() {
+            const symbols = ['💖', '💝', '💗', '💓', '💕', '❤️', '🧡', '💛', '💚', '💙', '💜', '🎉', '✨', '🌸', '🌺', '⭐'];
+            
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '-30px';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 30);
+            }
+        }
+        
+        // Обработчики для телефона
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        noBtn.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        // Для мышки
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        // Сброс позиции при изменении размера окна
+        window.addEventListener('resize', () => {
+            noBtn.style.left = 'auto';
+            noBtn.style.right = '0';
+            noBtn.style.top = '50%';
+            noBtn.style.transform = 'translateY(-50%)';
+            noBtn.style.backgroundColor = '#6c757d';
+        });
+        
+        // Чтобы кнопка не убегала при первой загрузке
+        noBtn.style.left = 'auto';
+        noBtn.style.right = '0';
+        noBtn.style.top = '50%';
+        noBtn.style.transform = 'translateY(-50%)';
+        noBtn.style.backgroundColor = '#6c757d';
+    </script>
+</body>
+</html>
